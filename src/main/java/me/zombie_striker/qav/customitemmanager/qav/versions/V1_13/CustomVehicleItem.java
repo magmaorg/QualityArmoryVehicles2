@@ -43,8 +43,6 @@ public class CustomVehicleItem extends AbstractItem {
 	}
 
 	public void initItems(boolean b) {
-		if (CustomItemManager.getResourcepack() == null)
-			CustomItemManager.setResourcepack("https://www.dropbox.com/s/s57cq1df5ilol8h/QualityArmoryCarsOnlyV1.2.zip?dl=1");
 		if (b) {
 			VehicleYML.registerVehicle(VehicleTypes.CAR, "t50", 80).setDisplayname("T50")
 					.setCenter(new Vector(-1.5, 0, 0)).setFrontVectorOffset(4).setBackVectorOffset(4)

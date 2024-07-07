@@ -9,15 +9,7 @@ import java.util.Set;
 
 public class CustomItemManager {
 
-	private static String resourcepack = null;
 	private static final HashMap<String, me.zombie_striker.qav.customitemmanager.AbstractItem> customItemTypes = new HashMap<>();
-
-	public static String getResourcepack() {
-		return resourcepack;
-	}
-	public static void setResourcepack(String url){
-		resourcepack = url;
-	}
 
 	public static Set<String> getCustomItemTypes(){return customItemTypes.keySet();}
 

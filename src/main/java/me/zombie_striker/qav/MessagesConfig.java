@@ -89,9 +89,6 @@ public class MessagesConfig {
 	public static String COOLDOWN = " You have to wait &6&n%time%ms&7 before performing this action again.";
 	public static String NEXT_PAGE = "&aNext Page";
 	public static String PREV_PAGE = "&cPrevious Page";
-	public static String RESOURCEPACK_TITLE = "&a&lDownloading Resourcepack...";
-	public static String RESOURCEPACK_SUBTITLE = "&fAccept the resourcepack to see the custom items";
-	public static String RESOURCEPACK_CRASH = " In case the resourcepack crashes your client, reject the request and use &6&n/qa getResourcepack&7 to get the resourcepack.";
 
 	public static void init() {
 		messagesyml = YamlConfiguration.loadConfiguration(messagesymlfile);
@@ -230,9 +227,6 @@ public class MessagesConfig {
 				a("Messages.reload", COMMANDMESSAGES_RELOAD);
 		COOLDOWN =
 				a("Messages.cooldown", COOLDOWN);
-		RESOURCEPACK_TITLE = a("Messages.Resourcepack.Title", RESOURCEPACK_TITLE);
-		RESOURCEPACK_SUBTITLE = a("Messages.Resourcepack.Subtitle", RESOURCEPACK_SUBTITLE);
-		RESOURCEPACK_CRASH = a("Messages.Resourcepack.Crash", RESOURCEPACK_CRASH);
 
 		b();
 	}

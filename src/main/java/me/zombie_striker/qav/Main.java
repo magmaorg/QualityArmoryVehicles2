@@ -196,15 +196,6 @@ public class Main extends JavaPlugin {
 			CustomItemManager.registerItemType("vehicles", item);
 			item.initItems(getDataFolder());
 		}
-		if (!QAMini.overrideURL) {
-			String message = (String) a("QAMini.resourcepackurl", CustomItemManager.getResourcepack());
-			if (message != null && !message.equals(CustomItemManager.getResourcepack())) {
-				this.getConfig().set("QAMini.resourcepackurl", CustomItemManager.getResourcepack());
-				this.saveConfig();
-			}
-		} else {
-			CustomItemManager.setResourcepack((String) a("QAMini.resourcepackurl", CustomItemManager.getResourcepack()));
-		}
 
 		NMSUtil.init();
 
@@ -341,13 +332,8 @@ public class Main extends JavaPlugin {
 			} catch (Error | Exception e5) {
 			}
 
-			QAMini.overrideURL = (boolean) a("QAMini.resourcepackurl_override", QAMini.overrideURL);
 			QAMini.S_ITEM_VARIENTS_NEW = ChatColor.translateAlternateColorCodes('&',
 					(String) a("QAMini.variantPrefix", QAMini.S_ITEM_VARIENTS_NEW));
-			QAMini.shouldSend = (boolean) a("QAMini.sendResourcepack", QAMini.shouldSend);
-			QAMini.sendTitleOnJoin = (boolean) a("QAMini.sendResourcepackTitleOnJoin", QAMini.sendTitleOnJoin);
-			QAMini.sendOnJoin = (boolean) a("QAMini.sendResourcepackOnJoin", QAMini.sendOnJoin);
-			QAMini.kickIfDeny = (boolean) a("QAMini.kickIfRejectResourcepack", QAMini.kickIfDeny);
 			QAMini.verboseLogging = (boolean) a("QAMini.verboseItemLogging", QAMini.verboseLogging);
 		} else {
 			Plugin qa = Bukkit.getPluginManager().getPlugin("QualityArmory");

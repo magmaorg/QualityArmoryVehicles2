@@ -34,8 +34,6 @@ public class QAMini implements Listener {
 	public static List<MaterialStorage> registeredItems = new ArrayList<>();
 	//public static String customResourcepack = "https://www.dropbox.com/s/i52dxtzop7j8oel/QualityArmoryvCarsOnly%20v1.0.zip?dl=1";
 	public static List<String> namesToBypass = new ArrayList<>();
-	public static List<UUID> resourcepackReq = new ArrayList<>();
-	public static HashMap<UUID, Long> sentResourcepack = new HashMap<>();
 	public static boolean sendOnJoin = true;
 	public static boolean sendTitleOnJoin = true;
 	public static boolean shouldSend = true;
@@ -209,50 +207,6 @@ public class QAMini implements Listener {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void sendResourcepack(final Player player, final boolean warning) {
-		if (namesToBypass.contains(player.getName()) || resourcepackReq.contains(player.getUniqueId()))
-			return;
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				if (namesToBypass.contains(player.getName())) {
-					resourcepackReq.add(player.getUniqueId());
-					return;
-				}
-				if (warning)
-					try {
-						player.sendTitle(
-								MessagesConfig.RESOURCEPACK_TITLE,
-								MessagesConfig.RESOURCEPACK_SUBTITLE);
-					} catch (Error e2) {
-						player.sendMessage(MessagesConfig.RESOURCEPACK_TITLE);
-						player.sendMessage(MessagesConfig.RESOURCEPACK_SUBTITLE);
-					}
-				if (MessagesConfig.RESOURCEPACK_CRASH.length() > 2) {
-					player.sendMessage(Main.prefix + MessagesConfig.RESOURCEPACK_CRASH);
-				}
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						try {
-							player.setResourcePack(CustomItemManager.getResourcepack());
-							if (!isVersionHigherThan(1, 9)) {
-								resourcepackReq.add(player.getUniqueId());
-								sentResourcepack.put(player.getUniqueId(), System.currentTimeMillis());
-							}
-							resourcepackReq.add(player.getUniqueId());
-							// If the player is on 1.8, manually add them to the resource list.
-
-						} catch (Exception e) {
-
-						}
-					}
-				}.runTaskLater(QualityArmoryVehicles.getPlugin(), 20 * (warning ? 1 : 5));
-			}
-		}.runTaskLater(QualityArmoryVehicles.getPlugin(), 0);
-	}
-
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		if (e.isCancelled())
@@ -291,19 +245,6 @@ public class QAMini implements Listener {
 					}
 				}.runTaskLater(QualityArmoryVehicles.getPlugin(), 1);
 
-			}
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	public void onPickup(PlayerPickupItemEvent e) {
-		if (e.isCancelled())
-			return;
-		if (QualityArmoryVehicles.isVehicleByItem(e.getItem().getItemStack())) {
-			if (shouldSend && !namesToBypass.contains(e.getPlayer().getName())
-					&& !resourcepackReq.contains(e.getPlayer().getUniqueId())) {
-				sendResourcepack(e.getPlayer(), true);
 			}
 		}
 	}
@@ -403,14 +344,6 @@ public class QAMini implements Listener {
 				return;
 		}
 
-		if (kickIfDeny && sentResourcepack.containsKey(e.getPlayer().getUniqueId())
-				&& System.currentTimeMillis() - sentResourcepack.get(e.getPlayer().getUniqueId()) >= 3000) {
-			// the player did not accept resourcepack, and got away with it
-			e.setCancelled(true);
-			e.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', "&c You have been kicked because you did not accept the resourcepack. \n&f If you want to rejoin the server, edit the server entry and set \"Resourcepack Prompts\" to \"Accept\" or \"Prompt\"'"));
-			return;
-		}
-
 		if (e.getItem() != null) {
 			final ItemStack origin = e.getItem();
 			final int slot = e.getPlayer().getInventory().getHeldItemSlot();
@@ -446,51 +379,6 @@ public class QAMini implements Listener {
 
 			// ItemStack usedItem = e.getPlayer().getItemInHand();
 
-			// Sedn the resourcepack if the player does not have it.
-			if (shouldSend && !resourcepackReq.contains(e.getPlayer().getUniqueId())) {
-				DEBUG("Player does not have resourcepack!");
-				sendResourcepack(e.getPlayer(), true);
-			}
-
-		}
-	}
-
-	@EventHandler
-	public void onQuit(final PlayerQuitEvent e) {
-		resourcepackReq.remove(e.getPlayer().getUniqueId());
-	}
-
-	@EventHandler
-	public void onJoin(final PlayerJoinEvent e) {
-		if (/* Bukkit.getVersion().contains("1.8") || */ Bukkit.getVersion().contains("1.7")) {
-			Bukkit.broadcastMessage(Main.prefix
-					+ " QualityArmory does not support versions older than 1.9, and may crash clients");
-			Bukkit.broadcastMessage(
-					"Since there is no reason to stay on outdated updates, (1.7 and 1.8 has quite a number of exploits) update your server.");
-			if (shouldSend) {
-				shouldSend = false;
-				Bukkit.broadcastMessage(Main.prefix + ChatColor.RED + " Disabling resourcepack.");
-			}
-		}
-
-		if (sendOnJoin) {
-			sendResourcepack(e.getPlayer(), sendTitleOnJoin);
-		} else {
-			for (ItemStack i : e.getPlayer().getInventory().getContents()) {
-				if (i != null && (QualityArmoryVehicles.isVehicleByItem(i))) {
-					if (shouldSend && !resourcepackReq.contains(e.getPlayer().getUniqueId())) {
-						new BukkitRunnable() {
-
-							@Override
-							public void run() {
-								sendResourcepack(e.getPlayer(), false);
-							}
-
-						}.runTaskLater(QualityArmoryVehicles.getPlugin(), 0);
-					}
-					break;
-				}
-			}
 		}
 	}
 }
