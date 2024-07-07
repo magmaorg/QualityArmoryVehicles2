@@ -17,7 +17,6 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.dmulloy2.net/nexus/repository/public/")
     maven("https://repo.citizensnpcs.co/")
-    maven("https://repo.glaremasters.me/repository/towny/")
     maven("https://mvn.lumine.io/repository/maven-public/") {
         metadataSources {
             artifact()
@@ -45,7 +44,6 @@ dependencies {
     // Compatibilities
     compileOnly("com.comphenix.protocol:ProtocolLib:5.0.0")
     compileOnly("me.zombie_striker:QualityArmory:2.0.13")
-    compileOnly("com.github.TownyAdvanced:Towny:0.100.2.0")
     compileOnly("net.milkbowl.vault:VaultAPI:1.7")
     compileOnly("com.ticxo.modelengine:api:R3.2.0")
     compileOnly("org.maxgamer:QuickShop:5.1.2.0")

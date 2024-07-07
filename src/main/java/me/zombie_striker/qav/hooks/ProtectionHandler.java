@@ -1,7 +1,6 @@
 package me.zombie_striker.qav.hooks;
 
 import me.zombie_striker.qav.Main;
-import me.zombie_striker.qav.hooks.implementation.TownyHook;
 import me.zombie_striker.qav.hooks.implementation.WorldGuardHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,7 +14,6 @@ public class ProtectionHandler {
 
     public static void init() {
         hook("WorldGuard", WorldGuardHook::new);
-        hook("Towny", TownyHook::new);
     }
 
     public static boolean canMove(Player player, Location target) {
