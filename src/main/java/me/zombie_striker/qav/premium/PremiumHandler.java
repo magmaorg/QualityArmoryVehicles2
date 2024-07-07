@@ -11,7 +11,7 @@ public class PremiumHandler {
 
     @Contract(pure = true)
     public static @NotNull String getUser() {
-        return "%%__USER__%%";
+        return "1006835";
     }
 
     public static boolean isPremium() {
